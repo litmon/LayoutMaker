@@ -18,22 +18,34 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button).setOnTouchListener(new OnTouchActionAdapter(){
+        final View button = findViewById(R.id.button);
 
+        button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onDown(View v, MotionEvent event) {
-                findViewById(R.id.button).startDrag(null, new View.DragShadowBuilder(v), v, 0);
+            public boolean onLongClick(View v) {
+                button.startDrag(null, new View.DragShadowBuilder(button), button, 0);
                 return true;
             }
-
         });
 
-        findViewById(R.id.button).setOnDragListener(new OnDragActionAdapter() {
+        button.setOnDragListener(new OnDragActionAdapter() {
 
             @Override
             public boolean onDrop(View v, DragEvent event) {
                 System.out.println("view onDropped");
+                button.layout(
+                        (int) (button.getX() + event.getX() - button.getWidth() / 2),
+                        (int) (button.getY() + event.getY() - button.getHeight() / 2),
+                        (int) (button.getX() + event.getX() + button.getWidth() / 2),
+                        (int) (button.getY() + event.getY() + button.getHeight() / 2));
                 return true;
+            }
+
+            @Override
+            public boolean onDragLocation(View v, DragEvent event) {
+                System.out.println("view: " + event.getX() + ", " + event.getY());
+
+                return super.onDragLocation(v, event);
             }
         });
 
@@ -42,7 +54,18 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onDrop(View v, DragEvent event) {
                 System.out.println("layout onDropped");
+                button.layout(
+                        (int) event.getX() - button.getWidth() / 2,
+                        (int) event.getY() - button.getHeight() / 2,
+                        (int) event.getX() + button.getWidth() / 2,
+                        (int) event.getY() + button.getHeight() / 2);
                 return true;
+            }
+
+            @Override
+            public boolean onDragLocation(View v, DragEvent event) {
+                System.out.println("layout: " + event.getX() + ", " + event.getY());
+                return super.onDragLocation(v, event);
             }
         });
     }
