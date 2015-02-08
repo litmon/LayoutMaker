@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -19,6 +21,46 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         final View button = findViewById(R.id.button);
+        final ViewGroup layout = (ViewGroup)findViewById(R.id.layout);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            boolean isClicked = false;
+            Button[] buttons = new Button[4];
+
+            @Override
+            public void onClick(View v) {
+                isClicked = !isClicked;
+
+                if(isClicked) {
+                    for (int i = 0; i < buttons.length; i++) {
+                        buttons[i] = new Button(MainActivity.this);
+                        buttons[i].setOnTouchListener(new OnTouchActionAdapter() {
+                            @Override
+                            public boolean onMove(View v, MotionEvent event) {
+
+                                return true;
+                            }
+                        });
+                        //layout.addView(buttons[i]);
+                    }
+
+                    int left = button.getLeft();
+                    int right = button.getRight();
+                    int top = button.getTop();
+                    int bottom = button.getBottom();
+
+                    System.out.println(left + "");
+
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(50, 50);
+                    params.leftMargin = left-50;
+                    params.topMargin = top-50;
+
+                    layout.addView(buttons[0], params);
+                }else{
+                    layout.removeView(buttons[0]);
+                }
+            }
+        });
 
         button.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -29,28 +71,19 @@ public class MainActivity extends ActionBarActivity {
         });
 
         button.setOnDragListener(new OnDragActionAdapter() {
-
             @Override
             public boolean onDrop(View v, DragEvent event) {
                 System.out.println("view onDropped");
                 button.layout(
-                        (int) (button.getX() + event.getX() - button.getWidth() / 2),
+                        (int) (button.getX() + event.getX() - button.getWidth()  / 2),
                         (int) (button.getY() + event.getY() - button.getHeight() / 2),
-                        (int) (button.getX() + event.getX() + button.getWidth() / 2),
+                        (int) (button.getX() + event.getX() + button.getWidth()  / 2),
                         (int) (button.getY() + event.getY() + button.getHeight() / 2));
                 return true;
-            }
-
-            @Override
-            public boolean onDragLocation(View v, DragEvent event) {
-                System.out.println("view: " + event.getX() + ", " + event.getY());
-
-                return super.onDragLocation(v, event);
             }
         });
 
         findViewById(R.id.layout).setOnDragListener(new OnDragActionAdapter() {
-
             @Override
             public boolean onDrop(View v, DragEvent event) {
                 System.out.println("layout onDropped");
@@ -60,12 +93,6 @@ public class MainActivity extends ActionBarActivity {
                         (int) event.getX() + button.getWidth() / 2,
                         (int) event.getY() + button.getHeight() / 2);
                 return true;
-            }
-
-            @Override
-            public boolean onDragLocation(View v, DragEvent event) {
-                System.out.println("layout: " + event.getX() + ", " + event.getY());
-                return super.onDragLocation(v, event);
             }
         });
     }
