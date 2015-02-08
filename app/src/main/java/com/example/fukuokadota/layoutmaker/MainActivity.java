@@ -16,45 +16,28 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button).setOnTouchListener(new View.OnTouchListener() {
-
+        findViewById(R.id.button).setOnTouchListener(new OnTouchActionAdapter() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        v.startDrag(null, new View.DragShadowBuilder(v), v, 0);
-                        break;
-                }
-
+            public boolean onDown(View v, MotionEvent event) {
+                findViewById(R.id.button).startDrag(null, new View.DragShadowBuilder(v), v, 0);
                 return true;
             }
+
         });
 
-        findViewById(R.id.button).setOnDragListener(new View.OnDragListener() {
+        findViewById(R.id.button).setOnDragListener(new OnDragActionAdapter() {
             @Override
-            public boolean onDrag(View v, DragEvent event) {
+            public boolean onDrop(View v, DragEvent event) {
+                System.out.println("view onDropped");
+                return true;
+            }
 
-                switch(event.getAction()){
-                    case DragEvent.ACTION_DRAG_ENDED:
-                        System.out.println("ACTION_DRAG_ENDED");
-                        break;
-                    case DragEvent.ACTION_DROP:
-                        System.out.println("ACTION_DROP");
-                        break;
-                    case DragEvent.ACTION_DRAG_ENTERED:
-                        System.out.println("ACTION_DRAG_ENTERED");
-                        break;
-                    case DragEvent.ACTION_DRAG_STARTED:
-                        System.out.println("ACTION_DRAG_STARTED");
-                        break;
-                    case DragEvent.ACTION_DRAG_EXITED:
-                        System.out.println("ACTION_DRAG_EXITED");
-                        break;
-                    case DragEvent.ACTION_DRAG_LOCATION:
-                        System.out.println("ACTION_DRAG_LOCATION");
-                        break;
-                }
+        });
 
+        findViewById(R.id.layout).setOnDragListener(new OnDragActionAdapter() {
+            @Override
+            public boolean onDrop(View v, DragEvent event) {
+                System.out.println("layout onDropped");
                 return true;
             }
 
@@ -82,5 +65,131 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    abstract class OnTouchActionAdapter implements View.OnTouchListener {
+
+        @Override
+        public final boolean onTouch(View v, MotionEvent event) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    return onDown(v, event);
+                case MotionEvent.ACTION_MOVE:
+                    return onMove(v, event);
+                case MotionEvent.ACTION_UP:
+                    return onUp(v, event);
+                case MotionEvent.ACTION_CANCEL:
+                    return onCancel(v, event);
+                case MotionEvent.ACTION_HOVER_ENTER:
+                    return onHoverEnter(v, event);
+                case MotionEvent.ACTION_HOVER_MOVE:
+                    return onHoverMove(v, event);
+                case MotionEvent.ACTION_HOVER_EXIT:
+                    return onHoverExit(v, event);
+                case MotionEvent.ACTION_OUTSIDE:
+                    return onOutSide(v, event);
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    return onPointerDown(v, event);
+                case MotionEvent.ACTION_POINTER_UP:
+                    return onPointerUp(v, event);
+                case MotionEvent.ACTION_SCROLL:
+                    return onScroll(v, event);
+
+            }
+
+            return v.onTouchEvent(event);
+        }
+
+        public boolean onPointerUp(View v, MotionEvent event) {
+            return v.onTouchEvent(event);
+        }
+
+        public boolean onPointerDown(View v, MotionEvent event) {
+            return v.onTouchEvent(event);
+        }
+
+        public boolean onOutSide(View v, MotionEvent event) {
+            return v.onTouchEvent(event);
+        }
+
+        public boolean onHoverExit(View v, MotionEvent event) {
+            return v.onTouchEvent(event);
+        }
+
+        public boolean onHoverMove(View v, MotionEvent event) {
+            return v.onTouchEvent(event);
+        }
+
+        public boolean onHoverEnter(View v, MotionEvent event) {
+            return v.onTouchEvent(event);
+        }
+
+        public boolean onCancel(View v, MotionEvent event) {
+            return v.onTouchEvent(event);
+        }
+
+        public boolean onUp(View v, MotionEvent event) {
+            return v.onTouchEvent(event);
+        }
+
+        public boolean onMove(View v, MotionEvent event) {
+            return v.onTouchEvent(event);
+        }
+
+        public boolean onScroll(View v, MotionEvent event) {
+            return v.onTouchEvent(event);
+        }
+
+        public boolean onDown(View v, MotionEvent event) {
+            return v.onTouchEvent(event);
+        }
+
+    }
+
+    abstract class OnDragActionAdapter implements View.OnDragListener {
+
+        public boolean onDragStarted(View v, DragEvent event) {
+            return v.onDragEvent(event);
+        }
+
+        public boolean onDrop(View v, DragEvent event) {
+            return v.onDragEvent(event);
+        }
+
+        public boolean onDragEntered(View v, DragEvent event) {
+            return v.onDragEvent(event);
+        }
+
+        public boolean onDragEnded(View v, DragEvent event) {
+            return v.onDragEvent(event);
+        }
+
+        public boolean onDragLocation(View v, DragEvent event) {
+            return v.onDragEvent(event);
+        }
+
+        public boolean onDragExisted(View v, DragEvent event) {
+            return v.onDragEvent(event);
+        }
+
+        @Override
+        public final boolean onDrag(View v, DragEvent event) {
+            switch (event.getAction()) {
+                case DragEvent.ACTION_DRAG_ENDED:
+                    return onDragEnded(v, event);
+                case DragEvent.ACTION_DROP:
+                    return onDrop(v, event);
+                case DragEvent.ACTION_DRAG_ENTERED:
+                    return onDragEntered(v, event);
+                case DragEvent.ACTION_DRAG_STARTED:
+                    return onDragStarted(v, event);
+                case DragEvent.ACTION_DRAG_EXITED:
+                    return onDragExisted(v, event);
+                case DragEvent.ACTION_DRAG_LOCATION:
+                    return onDragLocation(v, event);
+            }
+
+            return v.onDragEvent(event);
+        }
     }
 }
