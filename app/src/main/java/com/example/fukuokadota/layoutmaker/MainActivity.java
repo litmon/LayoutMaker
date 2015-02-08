@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -16,7 +18,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button).setOnTouchListener(new OnTouchActionAdapter() {
+        findViewById(R.id.button).setOnTouchListener(new OnTouchActionAdapter(){
+
             @Override
             public boolean onDown(View v, MotionEvent event) {
                 findViewById(R.id.button).startDrag(null, new View.DragShadowBuilder(v), v, 0);
@@ -26,21 +29,21 @@ public class MainActivity extends ActionBarActivity {
         });
 
         findViewById(R.id.button).setOnDragListener(new OnDragActionAdapter() {
+
             @Override
             public boolean onDrop(View v, DragEvent event) {
                 System.out.println("view onDropped");
                 return true;
             }
-
         });
 
         findViewById(R.id.layout).setOnDragListener(new OnDragActionAdapter() {
+
             @Override
             public boolean onDrop(View v, DragEvent event) {
                 System.out.println("layout onDropped");
                 return true;
             }
-
         });
     }
 
@@ -67,11 +70,11 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    abstract class OnTouchActionAdapter implements View.OnTouchListener {
+    abstract class OnTouchActionAdapter extends ActionDefaultSettings implements View.OnTouchListener{
 
         @Override
         public final boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()) {
+            switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
                     return onDown(v, event);
                 case MotionEvent.ACTION_MOVE:
@@ -97,84 +100,84 @@ public class MainActivity extends ActionBarActivity {
 
             }
 
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
         public boolean onPointerUp(View v, MotionEvent event) {
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
         public boolean onPointerDown(View v, MotionEvent event) {
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
         public boolean onOutSide(View v, MotionEvent event) {
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
         public boolean onHoverExit(View v, MotionEvent event) {
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
         public boolean onHoverMove(View v, MotionEvent event) {
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
         public boolean onHoverEnter(View v, MotionEvent event) {
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
         public boolean onCancel(View v, MotionEvent event) {
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
         public boolean onUp(View v, MotionEvent event) {
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
         public boolean onMove(View v, MotionEvent event) {
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
         public boolean onScroll(View v, MotionEvent event) {
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
         public boolean onDown(View v, MotionEvent event) {
-            return v.onTouchEvent(event);
+            return actionDefault;
         }
 
     }
 
-    abstract class OnDragActionAdapter implements View.OnDragListener {
+    abstract class OnDragActionAdapter extends ActionDefaultSettings implements View.OnDragListener{
 
-        public boolean onDragStarted(View v, DragEvent event) {
-            return v.onDragEvent(event);
+        public boolean onDragStarted(View v, DragEvent event){
+            return actionDefault;
         }
 
-        public boolean onDrop(View v, DragEvent event) {
-            return v.onDragEvent(event);
+        public boolean onDrop(View v, DragEvent event){
+            return actionDefault;
         }
 
-        public boolean onDragEntered(View v, DragEvent event) {
-            return v.onDragEvent(event);
+        public boolean onDragEntered(View v, DragEvent event){
+            return actionDefault;
         }
 
-        public boolean onDragEnded(View v, DragEvent event) {
-            return v.onDragEvent(event);
+        public boolean onDragEnded(View v, DragEvent event){
+            return actionDefault;
         }
 
-        public boolean onDragLocation(View v, DragEvent event) {
-            return v.onDragEvent(event);
+        public boolean onDragLocation(View v, DragEvent event){
+            return actionDefault;
         }
 
         public boolean onDragExisted(View v, DragEvent event) {
-            return v.onDragEvent(event);
+            return actionDefault;
         }
 
         @Override
         public final boolean onDrag(View v, DragEvent event) {
-            switch (event.getAction()) {
+            switch(event.getAction()){
                 case DragEvent.ACTION_DRAG_ENDED:
                     return onDragEnded(v, event);
                 case DragEvent.ACTION_DROP:
@@ -189,7 +192,14 @@ public class MainActivity extends ActionBarActivity {
                     return onDragLocation(v, event);
             }
 
-            return v.onDragEvent(event);
+            return actionDefault;
+        }
+    }
+
+    abstract public class ActionDefaultSettings {
+        protected boolean actionDefault = true;
+        public void setActionDefault(boolean actionDefault){
+            this.actionDefault = actionDefault;
         }
     }
 }
