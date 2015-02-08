@@ -17,14 +17,12 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         findViewById(R.id.button).setOnTouchListener(new View.OnTouchListener() {
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
-                switch (event.getAction()){
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        v.layout((int)event.getX(), (int)event.getY(), (int)event.getX()+v.getWidth(), (int)event.getY() + v.getHeight());
+                        v.startDrag(null, new View.DragShadowBuilder(v), v, 0);
                         break;
                 }
 
@@ -36,9 +34,30 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onDrag(View v, DragEvent event) {
 
+                switch(event.getAction()){
+                    case DragEvent.ACTION_DRAG_ENDED:
+                        System.out.println("ACTION_DRAG_ENDED");
+                        break;
+                    case DragEvent.ACTION_DROP:
+                        System.out.println("ACTION_DROP");
+                        break;
+                    case DragEvent.ACTION_DRAG_ENTERED:
+                        System.out.println("ACTION_DRAG_ENTERED");
+                        break;
+                    case DragEvent.ACTION_DRAG_STARTED:
+                        System.out.println("ACTION_DRAG_STARTED");
+                        break;
+                    case DragEvent.ACTION_DRAG_EXITED:
+                        System.out.println("ACTION_DRAG_EXITED");
+                        break;
+                    case DragEvent.ACTION_DRAG_LOCATION:
+                        System.out.println("ACTION_DRAG_LOCATION");
+                        break;
+                }
 
                 return true;
             }
+
         });
     }
 
