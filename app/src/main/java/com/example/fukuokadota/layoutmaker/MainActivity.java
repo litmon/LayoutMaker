@@ -50,8 +50,8 @@ public class MainActivity extends ActionBarActivity {
                     System.out.println(x + "");
 
                     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(80, 80);
-                    params.leftMargin = x - 50;
-                    params.topMargin = y - 50;
+                    params.leftMargin = x - 80;
+                    params.topMargin = y - 80;
 
                     layout.addView(buttons[0], params);
                 } else {
@@ -72,11 +72,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onDrop(View v, DragEvent event) {
                 System.out.println("view onDropped");
-                button.layout(
-                        (int) (button.getX() + event.getX() - button.getWidth() / 2),
-                        (int) (button.getY() + event.getY() - button.getHeight() / 2),
-                        (int) (button.getX() + event.getX() + button.getWidth() / 2),
-                        (int) (button.getY() + event.getY() + button.getHeight() / 2));
+                button.setX(button.getX() + event.getX() - button.getWidth() / 2);
+                button.setY(button.getY() + event.getY() - button.getHeight() / 2);
+
                 return true;
             }
         });
@@ -85,8 +83,8 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onDrop(View v, DragEvent event) {
                 System.out.println("layout onDropped");
-                button.setX(button.getWidth());
-                button.setY(button.getHeight());
+                button.setX(event.getX() - button.getWidth() / 2);
+                button.setY(event.getY() - button.getHeight() / 2);
 
                 return true;
             }
