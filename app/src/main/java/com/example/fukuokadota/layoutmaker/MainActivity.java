@@ -21,7 +21,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         final View button = findViewById(R.id.button);
-        final ViewGroup layout = (ViewGroup)findViewById(R.id.layout);
+        final ViewGroup layout = (ViewGroup) findViewById(R.id.layout);
 
         button.setOnClickListener(new View.OnClickListener() {
             boolean isClicked = false;
@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 isClicked = !isClicked;
 
-                if(isClicked) {
+                if (isClicked) {
                     for (int i = 0; i < buttons.length; i++) {
                         buttons[i] = new Button(MainActivity.this);
                         buttons[i].setOnTouchListener(new OnTouchActionAdapter() {
@@ -44,19 +44,17 @@ public class MainActivity extends ActionBarActivity {
                         //layout.addView(buttons[i]);
                     }
 
-                    int left = button.getLeft();
-                    int right = button.getRight();
-                    int top = button.getTop();
-                    int bottom = button.getBottom();
+                    int x = (int) button.getX();
+                    int y = (int) button.getY();
 
-                    System.out.println(left + "");
+                    System.out.println(x + "");
 
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(50, 50);
-                    params.leftMargin = left-50;
-                    params.topMargin = top-50;
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(80, 80);
+                    params.leftMargin = x - 50;
+                    params.topMargin = y - 50;
 
                     layout.addView(buttons[0], params);
-                }else{
+                } else {
                     layout.removeView(buttons[0]);
                 }
             }
@@ -75,9 +73,9 @@ public class MainActivity extends ActionBarActivity {
             public boolean onDrop(View v, DragEvent event) {
                 System.out.println("view onDropped");
                 button.layout(
-                        (int) (button.getX() + event.getX() - button.getWidth()  / 2),
+                        (int) (button.getX() + event.getX() - button.getWidth() / 2),
                         (int) (button.getY() + event.getY() - button.getHeight() / 2),
-                        (int) (button.getX() + event.getX() + button.getWidth()  / 2),
+                        (int) (button.getX() + event.getX() + button.getWidth() / 2),
                         (int) (button.getY() + event.getY() + button.getHeight() / 2));
                 return true;
             }
@@ -87,11 +85,9 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public boolean onDrop(View v, DragEvent event) {
                 System.out.println("layout onDropped");
-                button.layout(
-                        (int) event.getX() - button.getWidth() / 2,
-                        (int) event.getY() - button.getHeight() / 2,
-                        (int) event.getX() + button.getWidth() / 2,
-                        (int) event.getY() + button.getHeight() / 2);
+                button.setX(button.getWidth());
+                button.setY(button.getHeight());
+
                 return true;
             }
         });
@@ -113,11 +109,11 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    abstract class OnTouchActionAdapter extends ActionDefaultSettings implements View.OnTouchListener{
+    abstract class OnTouchActionAdapter extends ActionDefaultSettings implements View.OnTouchListener {
 
         @Override
         public final boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()){
+            switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     return onDown(v, event);
                 case MotionEvent.ACTION_MOVE:
@@ -192,25 +188,25 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    abstract class OnDragActionAdapter extends ActionDefaultSettings implements View.OnDragListener{
+    abstract class OnDragActionAdapter extends ActionDefaultSettings implements View.OnDragListener {
 
-        public boolean onDragStarted(View v, DragEvent event){
+        public boolean onDragStarted(View v, DragEvent event) {
             return actionDefault;
         }
 
-        public boolean onDrop(View v, DragEvent event){
+        public boolean onDrop(View v, DragEvent event) {
             return actionDefault;
         }
 
-        public boolean onDragEntered(View v, DragEvent event){
+        public boolean onDragEntered(View v, DragEvent event) {
             return actionDefault;
         }
 
-        public boolean onDragEnded(View v, DragEvent event){
+        public boolean onDragEnded(View v, DragEvent event) {
             return actionDefault;
         }
 
-        public boolean onDragLocation(View v, DragEvent event){
+        public boolean onDragLocation(View v, DragEvent event) {
             return actionDefault;
         }
 
@@ -220,7 +216,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public final boolean onDrag(View v, DragEvent event) {
-            switch(event.getAction()){
+            switch (event.getAction()) {
                 case DragEvent.ACTION_DRAG_ENDED:
                     return onDragEnded(v, event);
                 case DragEvent.ACTION_DROP:
@@ -241,7 +237,8 @@ public class MainActivity extends ActionBarActivity {
 
     abstract public class ActionDefaultSettings {
         protected boolean actionDefault = true;
-        public void setActionDefault(boolean actionDefault){
+
+        public void setActionDefault(boolean actionDefault) {
             this.actionDefault = actionDefault;
         }
     }
