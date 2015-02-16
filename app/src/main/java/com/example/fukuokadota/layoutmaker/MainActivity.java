@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 
 public class MainActivity extends ActionBarActivity {
 
+    public static final int BUTTON_SIZE = 80;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,21 +43,41 @@ public class MainActivity extends ActionBarActivity {
                                 return true;
                             }
                         });
-                        //layout.addView(buttons[i]);
                     }
 
                     int x = (int) button.getX();
                     int y = (int) button.getY();
+                    int w = button.getWidth();
+                    int h = button.getHeight();
 
-                    System.out.println(x + "");
-
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(80, 80);
-                    params.leftMargin = x - 80;
-                    params.topMargin = y - 80;
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(BUTTON_SIZE, BUTTON_SIZE);
+                    params.leftMargin = x - BUTTON_SIZE;
+                    params.topMargin = y - BUTTON_SIZE;
 
                     layout.addView(buttons[0], params);
+
+                    params = new RelativeLayout.LayoutParams(BUTTON_SIZE, BUTTON_SIZE);
+                    params.leftMargin = x + w - BUTTON_SIZE;
+                    params.topMargin = y - BUTTON_SIZE;
+
+                    layout.addView(buttons[1], params);
+
+                    params = new RelativeLayout.LayoutParams(BUTTON_SIZE, BUTTON_SIZE);
+                    params.leftMargin = x - BUTTON_SIZE;
+                    params.topMargin = y + h - BUTTON_SIZE;
+
+                    layout.addView(buttons[2], params);
+
+                    params = new RelativeLayout.LayoutParams(BUTTON_SIZE, BUTTON_SIZE);
+                    params.leftMargin = x + w - BUTTON_SIZE;
+                    params.topMargin = y + h - BUTTON_SIZE;
+
+                    layout.addView(buttons[3], params);
+
                 } else {
-                    layout.removeView(buttons[0]);
+                    for(Button b : buttons) {
+                        layout.removeView(b);
+                    }
                 }
             }
         });
