@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 
 public class MainActivity extends ActionBarActivity {
 
-    public static final int BUTTON_SIZE = 80;
+    public static final int BUTTON_SIZE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
